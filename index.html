@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descubre tu Potencial de Ingresos con IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Componente 1: Quiz de Perfilamiento -->
+        <section id="quiz-section" class="fade-in">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Descubre tu Potencial de Ingresos con IA</h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Este quiz te ayudará a entender tu perfil único para crear un plan de crecimiento personalizado con inteligencia artificial.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm font-medium text-gray-700">Progreso</span>
+                        <span id="progress-percentage" class="text-sm font-medium text-blue-600">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progress-bar" class="progress-bar bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div id="quiz-container" class="min-h-[300px]">
+                    <div id="question-1" class="quiz-question fade-in">
+                        <h2 class="text-xl font-semibold mb-4">¿Cuál es tu principal meta financiera en este momento?</h2>
+                        <div class="space-y-3">
+                            <button onclick="nextQuestion('Generar un ingreso extra', 1)" class="w-full text-left bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg px-4 py-3 transition">
+                                Generar un ingreso extra
+                            </button>
+                            <button onclick="nextQuestion('Reemplazar mi ingreso actual', 1)" class="w-full text-left bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg px-4 py-3 transition">
+                                Reemplazar mi ingreso actual
+                            </button>
+                            <button onclick="nextQuestion('Alcanzar la independencia financiera', 1)" class="w-full text-left bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg px-4 py-3 transition">
+                                Alcanzar la independencia financiera
+                            </button>
+                            <button onclick="nextQuestion('Comprar algo específico (ej. una casa, un coche)', 1)" class="w-full text-left bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg px-4 py-3 transition">
+                                Comprar algo específico (ej. una casa, un coche)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Componente 2: Reto Personal -->
+        <section id="challenge-section" class="hidden fade-in">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text mb-4">¡Tu Reto Personal de Crecimiento con IA está Listo!</h1>
+                <p class="text-lg text-gray-600">Basado en tus respuestas, hemos creado un plan personalizado para potenciar tus ingresos con inteligencia artificial.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto mb-8">
+                <div class="text-center mb-6">
+                    <h2 id="challenge-title" class="text-2xl font-bold text-blue-600 mb-2">Dominio de IA para Creación de Contenido Automatizado</h2>
+                    <p id="challenge-goal" class="text-gray-700">Este es tu primer paso para alcanzar tu meta de <span id="goal-meta" class="font-semibold">independencia financiera</span>.</p>
+                </div>
+
+                <div class="mb-8">
+                    <canvas id="progressChart" height="250"></canvas>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200 mb-6">
+                    <h3 class="font-semibold text-blue-800 mb-2">Fecha límite para completar el reto:</h3>
+                    <p id="deadline" class="text-xl font-bold text-blue-600">15 de Agosto, 2023</p>
+                </div>
+
+                <!-- Componente 3: Captura de Email -->
+                <div id="email-capture" class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-semibold mb-3 text-center">Recibe tu Plan de Desafío Completo y Personalizado</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="tucorreo@ejemplo.com">
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="terms" name="terms" type="checkbox" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" required>
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="terms" class="font-medium text-gray-700">Acepto la <a href="#" class="text-blue-600 hover:text-blue-800">Política de Privacidad</a> y los <a href="#" class="text-blue-600 hover:text-blue-800">Términos de Servicio</a>.</label>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="newsletter" name="newsletter" type="checkbox" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="newsletter" class="font-medium text-gray-700">Sí, quiero recibir consejos semanales, ofertas y noticias sobre IA por correo.</label>
+                            </div>
+                        </div>
+                        <button onclick="submitEmail()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:scale-105">
+                            ¡Quiero mi Reto Completo!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Componente 4: Página de Oferta -->
+        <section id="offer-section" class="hidden fade-in">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text mb-2">¡Felicidades! Estás a un paso de transformar tus ingresos.</h1>
+                <p class="text-lg text-gray-600">Selecciona el plan que mejor se adapte a tus necesidades y comienza hoy mismo.</p>
+            </div>
+
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-8 max-w-2xl mx-auto">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="flex items-center mb-2 md:mb-0">
+                        <div class="bg-red-100 rounded-full p-2 mr-3">
+                            <i class="fas fa-clock text-red-500"></i>
+                        </div>
+                        <h3 class="font-semibold text-red-800">Oferta por tiempo limitado</h3>
+                    </div>
+                    <div id="countdown" class="text-2xl font-bold text-red-600">
+                        15:00
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+                <!-- Plan 1 -->
+                <div class="pricing-card bg-white rounded-xl shadow-lg border border-gray-200 p-6 transform transition duration-300">
+                    <h3 class="text-xl font-bold text-center mb-3">Plan de Inicio</h3>
+                    <p class="text-gray-600 text-center mb-4">Perfecto para probar las herramientas básicas</p>
+                    <div class="text-center mb-6">
+                        <span class="text-4xl font-bold">$29</span>
+                        <span class="text-gray-500">/semana</span>
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Acceso a 5 herramientas esenciales</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>1 guía de inicio rápido</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>Soporte por correo electrónico</span>
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('starter')" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded-lg transition">
+                        Seleccionar Plan
+                    </button>
+                </div>
+
+                <!-- Plan 2 (Destacado) -->
+                <div class="pricing-card bg-white rounded-xl shadow-xl border-2 border-blue-500 p-6 relative transform transition duration-300">
+                    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
+                        MÁS POPULAR
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-3">Plan Acelerador</h3>
+                    <p class="text-gray-600 text-center mb-4">El mejor valor para un crecimiento rápido</p>
+                    <div class="text-center mb-4">
+                        <div class="text-sm text-gray-500 line-through">$100</div>
+                        <div class="text-4xl font-bold text-blue-600">$49.99</div>
+                        <div class="text-gray-500">/4 semanas</div>
+                    </div>
+                    <div id="special-offer" class="bg-blue-50 text-blue-800 text-sm px-3 py-2 rounded-lg mb-4">
+                        <i class="fas fa-bolt mr-1"></i> ¡Oferta especial! Paga solo <span class="font-bold">$39.99</span> si te suscribes ahora.
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Todas las herramientas premium (15+)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Acceso completo a los cursos</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Soporte prioritario 24/7</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Guía del reto personalizado</span>
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('accelerator')" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:scale-105">
+                        Seleccionar Plan
+                    </button>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="pricing-card bg-white rounded-xl shadow-lg border border-gray-200 p-6 transform transition duration-300">
+                    <h3 class="text-xl font-bold text-center mb-3">Plan de Maestría</h3>
+                    <p class="text-gray-600 text-center mb-4">Para transformar completamente tus ingresos</p>
+                    <div class="text-center mb-6">
+                        <span class="text-4xl font-bold">$99</span>
+                        <span class="text-gray-500">/12 semanas</span>
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Todas las funciones premium</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Mentoría semanal personalizada</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Comunidad exclusiva</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Certificación final</span>
+                        </li>
+                    </ul>
+                    <button onclick="selectPlan('mastery')" class="w-full bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold py-3 px-4 rounded-lg transition">
+                        Seleccionar Plan
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center text-sm text-gray-500 max-w-2xl mx-auto mb-12">
+                <p class="mb-2">Tu suscripción se renovará automáticamente. Puedes cancelarla en cualquier momento. El pago es 100% seguro.</p>
+                <div class="flex justify-center space-x-6">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visa/visa-original.svg" class="h-8" alt="Visa">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mastercard/mastercard-original.svg" class="h-8" alt="Mastercard">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/paypal/paypal-original.svg" class="h-8" alt="PayPal">
+                </div>
+            </div>
+
+            <!-- Componente 5: Beneficios y Prueba Social -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">¿Qué obtienes con tu suscripción?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-tools text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Guías de Herramientas IA</h3>
+                            <p class="text-gray-600">Acceso a guías detalladas sobre las mejores herramientas de IA para marketing, ventas y productividad.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-start">
+                        <div classbg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-video text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Lecciones y Cursos</h3>
+                            <p class="text-gray-600">Catálogo completo de lecciones en video y cursos prácticos para todos los niveles.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-start">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-balance-scale text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Equilibrio Vida/Trabajo</h3>
+                            <p class="text-gray-600">Recursos exclusivos para mantener el equilibrio personal y profesional mientras creces.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex items-start">
+                        <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-robot text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Entrenador IA 24/7</h3>
+                            <p class="text-gray-600">Chat disponible 24/7 con un entrenador de IA para resolver tus dudas al instante.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-blue-50 rounded-xl p-6 md:p-8 mb-10 text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4">+600,000 personas ya están aumentando sus ingresos con nosotros</h2>
+                    <div class="flex flex-wrap justify-center gap-4 mb-6">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Forbes_logo.svg/2560px-Forbes_logo.svg.png" class="h-8 opacity-70" alt="Forbes">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Business_Insider_logo.svg/2560px-Business_Insider_logo.svg.png" class="h-8 opacity-70" alt="Business Insider">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/TechCrunch_logo.svg/2560px-TechCrunch_logo.svg.png" class="h-8 opacity-70" alt="TechCrunch">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/43.jpg" class="w-10 h-10 rounded-full mr-3" alt="User">
+                                <div>
+                                    <h4 class="font-semibold">Ana G.</h4>
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">"Gracias a este programa, lancé mi propio negocio digital en 6 semanas. ¡Increíble!"</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full mr-3" alt="User">
+                                <div>
+                                    <h4 class="font-semibold">Carlos M.</h4>
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">"Las herramientas de IA han triplicado mi productividad. Vale cada centavo."</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full mr-3" alt="User">
+                                <div>
+                                    <h4 class="font-semibold">Laura S.</h4>
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 italic">"El soporte es excepcional. Siempre me ayudan con cualquier duda sobre IA."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 border border-green-200 rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <div class="bg-white p-3 rounded-full mr-4 shadow-sm">
+                            <i class="fas fa-shield-alt text-green-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Garantía de Devolución de 30 Días</h3>
+                            <p class="text-gray-700">Si no estás 100% satisfecho, te devolvemos tu dinero. Sin preguntas.</p>
+                        </div>
+                    </div>
+                    <button onclick="goToPricing()" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition transform hover:scale-105">
+                        ¡Quiero Comenzar Ahora!
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Variables globales
+        const userResponses = {};
+        let currentQuestion = 1;
+        const totalQuestions = 5;
+        let countdownInterval;
+        
+        // Preguntas del quiz
+        const questions = [
+            {
+                id: 1,
+                text: "¿Cuál es tu principal meta financiera en este momento?",
+                options: [
+                    "Generar un ingreso extra",
+                    "Reemplazar mi ingreso actual",
+                    "Alcanzar la independencia financiera",
+                    "Comprar algo específico (ej. una casa, un coche)"
+                ]
+            },
+            {
+                id: 2,
+                text: "¿Cuál describe mejor tu situación laboral?",
+                options: [
+                    "Empleado a tiempo completo",
+                    "Empleado a tiempo parcial",
+                    "Autónomo / Freelancer",
+                    "Dueño de un negocio",
+                    "Estudiante",
+                    "Desempleado"
+                ]
+            },
+            {
+                id: 3,
+                text: "¿Cómo calificarías tu conocimiento actual sobre IA y negocios online?",
+                options: [
+                    "Principiante (apenas empiezo)",
+                    "Intermedio (conozco algunos conceptos)",
+                    "Avanzado (tengo experiencia práctica)"
+                ]
+            },
+            {
+                id: 4,
+                text: "¿En qué prefieres enfocarte?",
+                options: [
+                    "Aprender una nueva habilidad técnica",
+                    "Mejorar mi productividad",
+                    "Crear nuevas fuentes de ingreso",
+                    "Automatizar tareas repetitivas"
+                ]
+            },
+            {
+                id: 5,
+                text: "¿Cómo aprendes mejor?",
+                options: [
+                    "Con guías paso a paso",
+                    "Viendo videos y tutoriales",
+                    "Con proyectos prácticos",
+                    "Con sesiones de preguntas y respuestas en vivo"
+                ]
+            }
+        ];
+
+        // Inicializar la aplicación
+        function initApp() {
+            updateProgressBar();
+        }
+
+        // Manejar la respuesta y pasar a la siguiente pregunta
+        function nextQuestion(response, questionNumber) {
+            userResponses[`question${questionNumber}`] = response;
+            currentQuestion++;
+            
+            if (currentQuestion <= totalQuestions) {
+                displayQuestion(currentQuestion);
+                updateProgressBar();
+            } else {
+                showLoadingAndChallenge();
+            }
+        }
+
+        // Mostrar la pregunta actual
+        function displayQuestion(questionNumber) {
+            const question = questions[questionNumber - 1];
+            const quizContainer = document.getElementById('quiz-container');
+            
+            quizContainer.innerHTML = `
+                <div id="question-${question.id}" class="quiz-question fade-in">
+                    <h2 class="text-xl font-semibold mb-4">${question.text}</h2>
+                    <div class="space-y-3">
+                        ${question.options.map(option => `
+                            <button onclick="nextQuestion('${option}', ${question.id})" class="w-full text-left bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg px-4 py-3 transition">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Actualizar la barra de progreso
+        function updateProgressBar() {
+            const progressPercentage = Math.round((currentQuestion - 1) / totalQuestions * 100);
+            document.getElementById('progress-percentage').textContent = `${progressPercentage}%`;
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        }
+
+        // Mostrar pantalla de carga y luego el reto personalizado
+        function showLoadingAndChallenge() {
+            const quizSection = document.getElementById('quiz-section');
+            quizSection.innerHTML = `
+                <div class="text-center py-20 fade-in">
+                    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto mb-4"></div>
+                    <h2 class="text-2xl font-semibold mb-2">Analizando tus respuestas...</h2>
+                    <p class="text-gray-600">Creando tu reto personalizado con IA</p>
+                </div>
+            `;
+            
+            // Simular un tiempo de carga antes de mostrar el reto
+            setTimeout(() => {
+                showChallenge();
+            }, 2500);
+        }
+
+        // Mostrar el reto personalizado
+        function showChallenge() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('challenge-section').classList.remove('hidden');
+            
+            // Configurar el reto basado en las respuestas del usuario
+            configureChallenge();
+        }
+
+        // Configurar el reto basado en las respuestas
+        function configureChallenge() {
+            // Obtener la meta financiera para personalizar el mensaje
+            const financialGoal = userResponses.question1 || "aumentar tus ingresos";
+            document.getElementById('goal-meta').textContent = financialGoal.toLowerCase();
+            
+            // Determinar el tipo de reto basado en las respuestas
+            let challengeType = "Creación de Contenido Automatizado";
+            const focusArea = userResponses.question4;
+            
+            if (focusArea === "Aprender una nueva habilidad técnica") {
+                challengeType = "Dominio de Herramientas de IA";
+            } else if (focusArea === "Mejorar mi productividad") {
+                challengeType = "Automatización de Procesos";
+            } else if (focusArea === "Crear nuevas fuentes de ingreso") {
+                challengeType = "Desarrollo de Flujos de Ingresos con IA";
+            }
+            
+            document.getElementById('challenge-title').textContent = `Dominio de IA para ${challengeType}`;
+            
+            // Calcular y mostrar la fecha límite (4 semanas desde hoy)
+            const deadline = new Date();
+            deadline.setDate(deadline.getDate() + 28); // 4 semanas
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('deadline').textContent = deadline.toLocaleDateString('es-ES', options);
+            
+            // Configurar el gráfico de progreso
+            setupProgressChart();
+        }
+
+        // Configurar el gráfico de progreso
+        function setupProgressChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            // Determinar el nivel inicial basado en el conocimiento del usuario
+            let initialLevel = 0;
+            const knowledgeLevel = userResponses.question3;
+            
+            if (knowledgeLevel === "Intermedio (conozco algunos conceptos)") {
+                initialLevel = 3;
+            } else if (knowledgeLevel === "Avanzado (tengo experiencia práctica)") {
+                initialLevel = 5;
+            }
+            
+            const progressChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Hoy', 'Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+                    datasets: [{
+                        label: 'Tu progreso estimado',
+                        data: [initialLevel, initialLevel + 2, initialLevel + 4, initialLevel + 7, initialLevel + 10],
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                        pointRadius: 5,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 0,
+                            max: 10,
+                            ticks: {
+                                callback: function(value) {
+                                    const levels = ['Novato', 'Principiante', 'Intermedio', 'Avanzado', 'Experto'];
+                                    return levels[Math.floor(value / 2)] || '';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const levels = ['Novato', 'Principiante', 'Intermedio', 'Avanzado', 'Experto'];
+                                    const level = levels[Math.floor(context.parsed.y / 2)] || '';
+                                    return `Nivel: ${level} (${context.parsed.y.toFixed(1)})`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Enviar el formulario de email
+        function submitEmail() {
+            const email = document.getElementById('email').value;
+            const termsChecked = document.getElementById('terms').checked;
+            
+            if (!email) {
+                alert("Por favor, introduce tu correo electrónico.");
+                return;
+            }
+            
+            if (!termsChecked) {
+                alert("Debes aceptar la Política de Privacidad y los Términos de Servicio.");
+                return;
+            }
+            
+            // Simular envío del formulario
+            document.getElementById('challenge-section').classList.add('hidden');
+            document.getElementById('offer-section').classList.remove('hidden');
+            
+            // Iniciar temporizador de cuenta regresiva (15 minutos)
+            startCountdown(15 * 60);
+        }
+
+        // Iniciar temporizador de cuenta regresiva
+        function startCountdown(seconds) {
+            let remainingTime = seconds;
+            updateCountdownDisplay(remainingTime);
+            
+            countdownInterval = setInterval(() => {
+                remainingTime--;
+                updateCountdownDisplay(remainingTime);
+                
+                if (remainingTime <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('special-offer').textContent = "¡Oferta expirada!";
+                    document.getElementById('special-offer').classList.remove('bg-blue-50', 'text-blue-800');
+                    document.getElementById('special-offer').classList.add('bg-gray-100', 'text-gray-500');
+                }
+            }, 1000);
+        }
+
+        // Actualizar visualización del temporizador
+        function updateCountdownDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            document.getElementById('countdown').textContent = `${minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`;
+        }
+
+        // Seleccionar plan (simulación)
+        function selectPlan(planType) {
+            let planName = '';
+            let price = '';
+            
+            switch (planType) {
+                case 'starter':
+                    planName = 'Plan de Inicio';
+                    price = '$29';
+                    break;
+                case 'accelerator':
+                    planName = 'Plan Acelerador';
+                    price = document.getElementById('countdown').textContent === '0:00' ? '$49.99' : '$39.99';
+                    break;
+                case 'mastery':
+                    planName = 'Plan de Maestría';
+                    price = '$99';
+                    break;
+            }
+            
+            alert(`¡Gracias por seleccionar el ${planName} por ${price}! Serás redirigido al proceso de pago.`);
+            // Aquí normalmente redirigirías al usuario a la pasarela de pagos
+        }
+
+        // Ir a la sección de precios
+        function goToPricing() {
+            document.getElementById('offer-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Inicializar la aplicación cuando se carga la página
+        window.onload = initApp;
+    </script>
+</body>
+</html>
