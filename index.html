@@ -32,8 +32,56 @@
 </head>
 <body class="font-sans bg-gray-50 text-gray-800 min-h-screen">
     <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Componente 0: Pantalla de Inicio -->
+        <section id="start-section" class="fade-in">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Descubre tu Potencial de Ingresos con IA</h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">¿Listo para descubrir cómo la IA puede transformar tus ingresos?</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl mx-auto">
+                <div class="relative">
+                    <img src="inicio-reto.jpg" alt="Inicio del Reto" class="w-full rounded-lg mb-6">
+                    <div class="absolute bottom-8 left-0 right-0 flex justify-center space-x-4">
+                        <button onclick="startQuiz()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md transition transform hover:scale-105">
+                            Sí, ¡empecemos!
+                        </button>
+                        <button onclick="showFeedbackForm()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition transform hover:scale-105">
+                            No, gracias
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Componente 0.5: Formulario de Feedback -->
+        <section id="feedback-section" class="hidden fade-in">
+            <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-center">¡Nos interesa tu opinión!</h2>
+                <p class="text-gray-600 mb-6 text-center">Déjanos tus datos y te enviaremos una guía gratuita sobre cómo empezar con IA.</p>
+                <form id="feedbackForm" class="space-y-4">
+                    <div>
+                        <label for="feedback-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                        <input type="text" id="feedback-name" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Tu nombre">
+                    </div>
+                    <div>
+                        <label for="feedback-email" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+                        <input type="email" id="feedback-email" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="tucorreo@ejemplo.com">
+                    </div>
+                    <button type="submit" 
+                        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:scale-105">
+                        Recibir Guía Gratuita
+                    </button>
+                </form>
+            </div>
+        </section>
+
         <!-- Componente 1: Quiz de Perfilamiento -->
-        <section id="quiz-section" class="fade-in">
+        <section id="quiz-section" class="hidden fade-in">
             <div class="text-center mb-10">
                 <h1 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Descubre tu Potencial de Ingresos con IA</h1>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">Este quiz te ayudará a entender tu perfil único para crear un plan de crecimiento personalizado con inteligencia artificial.</p>
@@ -439,8 +487,53 @@
 
         // Inicializar la aplicación
         function initApp() {
+            // Mostrar la sección de inicio por defecto
+            document.getElementById('start-section').classList.remove('hidden');
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('feedback-section').classList.add('hidden');
             updateProgressBar();
         }
+
+        // Iniciar el quiz
+        function startQuiz() {
+            document.getElementById('start-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+        }
+
+        // Mostrar el formulario de feedback
+        function showFeedbackForm() {
+            document.getElementById('start-section').classList.add('hidden');
+            document.getElementById('feedback-section').classList.remove('hidden');
+        }
+
+        // Manejar el envío del formulario de feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('feedback-name').value;
+                    const email = document.getElementById('feedback-email').value;
+
+                    // Aquí podrías enviar los datos a tu servidor
+                    alert(`¡Gracias ${name}! Te enviaremos la guía gratuita sobre IA a ${email}`);
+                    
+                    // Mostrar mensaje de éxito
+                    document.getElementById('feedback-section').innerHTML = `
+                        <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 text-center">
+                            <div class="text-green-500 text-5xl mb-4">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h2 class="text-2xl font-semibold mb-4">¡Gracias por tu interés!</h2>
+                            <p class="text-gray-600 mb-6">Hemos enviado la guía a tu correo electrónico. ¡Disfrútala!</p>
+                            <button onclick="window.location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition">
+                                Volver al inicio
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+        });
 
         // Manejar la respuesta y pasar a la siguiente pregunta
         function nextQuestion(response, questionNumber) {
@@ -481,21 +574,60 @@
             document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
         }
 
-        // Mostrar pantalla de carga y luego el reto personalizado
+        // Mostrar formulario de contacto y luego la pantalla de carga
         function showLoadingAndChallenge() {
             const quizSection = document.getElementById('quiz-section');
             quizSection.innerHTML = `
-                <div class="text-center py-20 fade-in">
-                    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto mb-4"></div>
-                    <h2 class="text-2xl font-semibold mb-2">Analizando tus respuestas...</h2>
-                    <p class="text-gray-600">Creando tu reto personalizado con IA</p>
+                <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-semibold mb-4 text-center">¡Excelente! Ya casi terminamos</h2>
+                    <p class="text-gray-600 mb-6 text-center">Para enviarte tus resultados personalizados, necesitamos algunos datos:</p>
+                    <form id="contactForm" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+                            <input type="email" id="contact-email" name="email" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="tucorreo@ejemplo.com">
+                        </div>
+                        <button type="submit" 
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition transform hover:scale-105">
+                            Ver mis resultados
+                        </button>
+                    </form>
                 </div>
             `;
             
-            // Simular un tiempo de carga antes de mostrar el reto
-            setTimeout(() => {
-                showChallenge();
-            }, 2500);
+            // Manejar el envío del formulario
+            const form = document.getElementById('contactForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('contact-email').value;
+                
+                // Guardar los datos del usuario
+                userResponses.name = name;
+                userResponses.email = email;
+                
+                // Mostrar pantalla de carga
+                quizSection.innerHTML = `
+                    <div class="text-center py-20 fade-in">
+                        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto mb-4"></div>
+                        <h2 class="text-2xl font-semibold mb-2">Analizando tus respuestas...</h2>
+                        <p class="text-gray-600">Creando tu reto personalizado con IA</p>
+                        <p class="text-sm text-gray-500 mt-4">Enviaremos una copia detallada a: ${email}</p>
+                    </div>
+                `;
+                
+                // Simular un tiempo de carga antes de mostrar el reto
+                setTimeout(() => {
+                    showChallenge();
+                }, 2500);
+            });
         }
 
         // Mostrar el reto personalizado
